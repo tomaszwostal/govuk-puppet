@@ -1,0 +1,14 @@
+{
+  "name": "govuk_envdir",
+  "version": "0.1.0",
+  "author": "govuk",
+  "summary": "Manages env_dir directory structure",
+  "license": "Apache 2.0",
+  "source": "https://github.com/alphagov/govuk-puppet",
+  "project_page": "https://github.com/alphagov/govuk-puppet",
+  "issues_url": "https://github.com/alphagov/govuk-puppet/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}
+
