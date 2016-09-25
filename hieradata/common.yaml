@@ -446,6 +446,9 @@ govuk::apps::specialist_publisher_rebuild_standalone::redis_port: "%{hiera('side
 govuk::apps::spotlight::enabled: true
 govuk::apps::spotlight::alert_5xx_warning_rate: 0.2
 govuk::apps::spotlight::alert_5xx_critical_rate: 0.3
+govuk::apps::spotlight::backdrop_internal_url: "https://backdrop-read.%{hiera('app_domain')}/data/{{ data-group }}/{{ data-type }}"
+govuk::apps::spotlight::backdrop_public_url: 'https://www.performance.service.gov.uk/data/{{ data-group }}/{{ data-type }}'
+govuk::apps::spotlight::stagecraft_url: 'https://stagecraft.production.performance.service.gov.uk'
 govuk::apps::spotlight::nagios_memory_warning: 2000
 govuk::apps::spotlight::nagios_memory_critical: 2200
 
