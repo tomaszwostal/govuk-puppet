@@ -70,7 +70,6 @@ govuk_jenkins::config::admins:
   - douglasroper
   - elliotcrosbymccullough
   - emmabeynon
-  - felicitymoon
   - grahampengelly
   - henryturner
   - ikennaokpala
@@ -296,7 +295,6 @@ users::usernames:
   - douglasroper
   - elliot
   - emmabeynon
-  - felicitymoon
   - gemmaleigh
   - grahampengelly
   - henryturner
