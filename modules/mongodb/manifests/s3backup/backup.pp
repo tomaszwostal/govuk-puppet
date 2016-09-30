@@ -24,10 +24,6 @@
 #   Defines whether to enable the cron job. Value
 #   should be true or false
 #
-# [*env_dir*]
-#   Defines directory for the environment
-#   variables
-#
 # [*private_gpg_key*]
 #   Defines the ascii exported private gpg to
 #   use for encrypting backups. This key should
@@ -50,6 +46,12 @@
 # [*user*]
 #   Defines the system user that will be created
 #   to run the backups
+#
+# === Variables
+#
+# [*app*]
+#  The name of the application/directory which the environment files relate to.
+#
 
 class mongodb::s3backup::backup(
   $aws_access_key_id = undef,
@@ -58,7 +60,6 @@ class mongodb::s3backup::backup(
   $backup_dir = '/var/lib/s3backup',
   $backup_node = 'localhost',
   $cron = true,
-  $env_dir = '/etc/mongo_s3backup',
   $private_gpg_key = undef,
   $private_gpg_key_fingerprint = undef,
   $s3_bucket  = undef,
@@ -68,6 +69,7 @@ class mongodb::s3backup::backup(
 
   include ::backup::client
   include ::mongodb::s3backup::restore
+  contain ::govuk
 
   validate_re($private_gpg_key_fingerprint, '^[[:alnum:]]{40}$', 'Must supply full GPG fingerprint')
 
@@ -79,33 +81,23 @@ class mongodb::s3backup::backup(
     mode   => '0750',
   }
 
-  file { [$env_dir,"${env_dir}/env.d"]:
-    ensure => directory,
-    owner  => $user,
-    group  => $user,
-    mode   => '0770',
+  $app = 'mongodb_s3backup'
+
+  govuk::app::envvar { 'AWS_SECRET_ACCESS_KEY':
+    app   => $app,
+    value => $aws_secret_access_key,
   }
 
-  file { "${env_dir}/env.d/AWS_SECRET_ACCESS_KEY":
-    content => $aws_secret_access_key,
-    owner   => $user,
-    group   => $user,
-    mode    => '0640',
+  govuk::app::envvar { 'AWS_ACCESS_KEY_ID':
+    app   => $app,
+    value => $aws_access_key_id,
   }
 
-  file { "${env_dir}/env.d/AWS_ACCESS_KEY_ID":
-    content => $aws_access_key_id,
-    owner   => $user,
-    group   => $user,
-    mode    => '0640',
+  govuk::app::envvar { 'AWS_REGION':
+    app   => $app,
+    value => $aws_region,
   }
 
-  file { "${env_dir}/env.d/AWS_REGION":
-    content => $aws_region,
-    owner   => $user,
-    group   => $user,
-    mode    => '0640',
-  }
 
   # push gpg key
   file { "/home/${user}/.gnupg":
