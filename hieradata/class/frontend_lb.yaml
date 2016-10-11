@@ -1,6 +1,7 @@
 ---
 
 govuk::node::s_base::apps:
+  - draft_publicapi
   - publicapi
   - public_event_store
 
