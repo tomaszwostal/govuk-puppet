@@ -1,0 +1,5 @@
+# config.ssh.forward_x11 = true
+# config.vm.network "forwarded_port", guest: 9292, host: 9292
+# config.vm.network "forwarded_port", guest: 15672, host: 55672
+# config.vm.network "forwarded_port", guest: 5432, host: 15432
+# config.vm.synced_folder "~/.gnupg", "/home/vagrant/.gnupg", :nfs => true
