@@ -13,6 +13,10 @@ clone_or_update()
 
 cd /var/govuk
 
+cd publishing-e2e-tests
+bundle install --quiet
+cd ..
+
 clone_or_update publishing-api git@github.com:alphagov/publishing-api.git master
 cd publishing-api
 bundle install --quiet
