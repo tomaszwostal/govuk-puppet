@@ -6,11 +6,24 @@ clone_or_update()
 {
   if [ -d $1 ]
   then
-    git -C $1 fetch origin
+    if ! git -C $1 diff --quiet --ignore-submodules --no-ext-diff; then
+      echo "skipped updating $1 due to local changes"
+    else
+      if ! git -C $1 checkout $3; then
+        echo "git failed to checked $3"
+      fi
+      if ! git -C $1 fetch origin; then
+        echo "git fetch failed for $1"
+        exit 1
+      fi
+      if ! git -C $1 merge --ff-only origin/$3; then
+        echo "updating $1 failed"
+        exit 1
+      fi
+    fi
   else
-    git clone $2
+    git -b $3 clone $2
   fi
-  git -C $1 checkout $3
 }
 
 kill_if_pidfile()
