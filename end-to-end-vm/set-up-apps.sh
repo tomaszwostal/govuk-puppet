@@ -32,6 +32,7 @@ govuk_setenv_daemon_background()
 }
 cd /var/govuk
 
+clone_or_update publishing-e2e-tests git@github.com:kevindew/publishing-e2e-tests.git master
 cd publishing-e2e-tests
 bundle install --quiet
 cd ..
