@@ -150,6 +150,13 @@ govuk_setenv_daemon finder-frontend tmp/pids/server.pid "bundle exec rails s -p 
 cd ..
 
 clone_or_update router git@github.com:alphagov/router.git master
+gopath_dir=$(basename $GOPATH)
+org_path="$gopath_dir/src/github.com/alphagov"
+if [ ! -d "$org_path/router" ]; then
+  mkdir -p $org_path
+  mv router $org_path
+  ln -s "$org_path/router" router
+fi
 cd router
 govuk_setenv router go get github.com/tools/godep
 kill_if_pidfile /tmp/router.pid
