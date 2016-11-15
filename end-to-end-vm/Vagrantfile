@@ -100,7 +100,9 @@ Vagrant.configure("2") do |config|
   #   config.vm.synced_folder "../..", "/var/govuk", :type => :nfs
   # end
   config.vm.synced_folder "..", "/var/govuk/govuk-puppet"
-  # config.vm.synced_folder "../../publishing-e2e-tests", "/var/govuk/publishing-e2e-tests"
+  (ENV["SYNC_LOCAL_APPS"] || "").split(",").each do |app_name|
+    config.vm.synced_folder "../../#{app_name}", "/var/govuk/#{app_name}"
+  end
 
   config = common_config(config)
 
