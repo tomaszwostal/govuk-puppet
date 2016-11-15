@@ -5,7 +5,6 @@ class govuk::apps::draft_publicapi (
 
   $app_domain = hiera('app_domain')
 
-  $privateapi = "contentapi.${app_domain}"
   $content_store_api = "draft-content-store.${app_domain}"
 
   if ($privateapi_ssl) {
@@ -18,7 +17,7 @@ class govuk::apps::draft_publicapi (
   $full_domain = "${app_name}.${app_domain}"
 
   nginx::config::vhost::proxy { $full_domain:
-    to               => [$privateapi],
+    to               => [$content_store_api],
     to_ssl           => $privateapi_ssl,
     protected        => false,
     ssl_only         => false,
