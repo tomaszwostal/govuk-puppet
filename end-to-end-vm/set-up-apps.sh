@@ -122,6 +122,7 @@ bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
 kill_if_pidfile tmp/pids/sidekiq.pid
 govuk_setenv specialist-publisher bundle exec rake db:seed
+govuk_setenv specialist-publisher bundle exec rake publishing_api:publish_finders
 govuk_setenv_daemon specialist-publisher tmp/pids/sidekiq.pid "bundle exec sidekiq -C ./config/sidekiq.yml -P tmp/pids/sidekiq.pid -d"
 # Theres a path bug in specialist publisher so we can't run it in the background
 govuk_setenv specialist-publisher start-stop-daemon --start --startas "/bin/sh" --pid tmp/pids/server.pid --chdir . --background -- -c "bundle exec rails s -p 3064"
