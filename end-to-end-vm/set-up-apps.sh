@@ -22,7 +22,7 @@ clone_or_update()
       fi
     fi
   else
-    git -b $3 clone $2
+    git clone -b $3 $2
   fi
 }
 
