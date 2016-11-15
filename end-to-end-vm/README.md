@@ -23,6 +23,10 @@ this step by setting a variable of SYNC_LOCAL_APPS eg
 
 `vagrant ssh -c "/var/govuk/govuk-puppet/end-to-end-vm/set-up-apps.sh"`
 
+You can specify particular branches or revisions of an application by passing
+variables into the shell argument eg
+`vagrant ssh -c "PUBLISHING_API_BRANCH=deployed-to-production /var/govuk/govuk-puppet/end-to-end-vm/set-up-apps.sh`
+
 ### 3. Run the Tests
 
 `vagrant ssh -c "d /var/govuk/publishing-e2e-tests;bundle exec rspec"

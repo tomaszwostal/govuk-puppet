@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -45,17 +45,17 @@ govuk_setenv_daemon_background()
 }
 cd /var/govuk
 
-clone_or_update publishing-e2e-tests git@github.com:kevindew/publishing-e2e-tests.git master
+clone_or_update publishing-e2e-tests git@github.com:kevindew/publishing-e2e-tests.git ${PUBLISHING_E2E_TESTS_BRANCH:-"master"}
 cd publishing-e2e-tests
 bundle install --quiet
 cd ..
 
-clone_or_update govuk-content-schemas git@github.com:alphagov/govuk-content-schemas.git master
+clone_or_update govuk-content-schemas git@github.com:alphagov/govuk-content-schemas.git ${GOVUK_CONTENT_SCHEMAS_BRANCH:-"master"}
 cd govuk-content-schemas
 bundle install --quiet
 cd ..
 
-clone_or_update content-store git@github.com:alphagov/content-store.git master
+clone_or_update content-store git@github.com:alphagov/content-store.git ${CONTENT_STORE_BRANCH:-"master"}
 cd content-store
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
@@ -66,7 +66,7 @@ govuk_setenv draft-content-store bundle exec rake db:purge
 govuk_setenv_daemon draft-content-store tmp/pids/draft-server.pid "bundle exec rails s -p 3100 -P tmp/pids/draft-server.pid -d"
 cd ..
 
-clone_or_update router-api git@github.com:alphagov/router-api.git master
+clone_or_update router-api git@github.com:alphagov/router-api.git ${ROUTER_API_BRANCH:-"master"}
 cd router-api
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
@@ -74,7 +74,7 @@ govuk_setenv router-api bundle exec rake db:purge
 govuk_setenv_daemon router-api tmp/pids/server.pid "bundle exec rails s -p 3056 -d"
 cd ..
 
-clone_or_update publishing-api git@github.com:alphagov/publishing-api.git master
+clone_or_update publishing-api git@github.com:alphagov/publishing-api.git ${PUBLISHING_API_BRANCH:-"master"}
 cd publishing-api
 bundle install --quiet
 kill_if_pidfile tmp/pids/sidekiq.pid
@@ -84,7 +84,7 @@ govuk_setenv_daemon publishing-api tmp/pids/sidekiq.pid "bundle exec sidekiq -C 
 govuk_setenv_daemon publishing-api tmp/pids/server.pid "bundle exec rails s -p 3093 -d"
 cd ..
 
-clone_or_update rummager git@github.com:alphagov/rummager.git master
+clone_or_update rummager git@github.com:alphagov/rummager.git ${RUMMAGER_BRANCH:-"master"}
 cd rummager
 bundle install --quiet
 kill_if_pidfile /tmp/rummager-sidekiq.pid
@@ -96,7 +96,7 @@ govuk_setenv_daemon_background rummager /tmp/rummager-mq-publishing-queue.pid "b
 govuk_setenv_daemon_background rummager /tmp/rummager-server.pid "bundle exec bundle exec mr-sparkle --force-polling -- -p 3009"
 cd ..
 
-clone_or_update asset-manager git@github.com:alphagov/asset-manager.git master
+clone_or_update asset-manager git@github.com:alphagov/asset-manager.git ${ASSET_MANAGER_BRANCH:-"master"}
 cd asset-manager
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
@@ -106,7 +106,7 @@ govuk_setenv_daemon asset-manager tmp/pids/server.pid "bundle exec rails s -p 30
 govuk_setenv_daemon_background asset-manager tmp/pids/delayed-job.pid "bundle exec rake jobs:work &> log/delayed-job.log"
 cd ..
 
-clone_or_update email-alert-api git@github.com:alphagov/email-alert-api.git master
+clone_or_update email-alert-api git@github.com:alphagov/email-alert-api.git ${EMAIL_ALERT_API_BRANCH:-"master"}
 cd email-alert-api
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
@@ -116,7 +116,7 @@ govuk_setenv_daemon email-alert-api tmp/pids/sidekiq.pid "bundle exec sidekiq -C
 govuk_setenv_daemon email-alert-api tmp/pids/server.pid "bundle exec rails s -p 3088 -d"
 cd ..
 
-clone_or_update specialist-publisher git@github.com:alphagov/specialist-publisher.git master
+clone_or_update specialist-publisher git@github.com:alphagov/specialist-publisher.git ${SPECIALIST_PUBLISHER_BRANCH:-"master"}
 cd specialist-publisher
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
@@ -128,28 +128,28 @@ govuk_setenv_daemon specialist-publisher tmp/pids/sidekiq.pid "bundle exec sidek
 govuk_setenv specialist-publisher start-stop-daemon --start --startas "/bin/sh" --pid tmp/pids/server.pid --chdir . --background -- -c "bundle exec rails s -p 3064"
 cd ..
 
-clone_or_update static git@github.com:alphagov/static.git master
+clone_or_update static git@github.com:alphagov/static.git ${STATIC_BRANCH:-"master"}
 cd static
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
 govuk_setenv_daemon static tmp/pids/server.pid "bundle exec rails s -p 3013 -d"
 cd ..
 
-clone_or_update specialist-frontend git@github.com:alphagov/specialist-frontend.git master
+clone_or_update specialist-frontend git@github.com:alphagov/specialist-frontend.git ${SPECIALIST_FRONTEND_BRANCH:-"master"}
 cd specialist-frontend
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
 govuk_setenv_daemon specialist-frontend tmp/pids/server.pid "bundle exec rails s -p 3065 -d"
 cd ..
 
-clone_or_update finder-frontend git@github.com:alphagov/finder-frontend.git master
+clone_or_update finder-frontend git@github.com:alphagov/finder-frontend.git ${FINDER_FRONTEND_MASTER:-"master"}
 cd finder-frontend
 bundle install --quiet
 kill_if_pidfile tmp/pids/server.pid
 govuk_setenv_daemon finder-frontend tmp/pids/server.pid "bundle exec rails s -p 3062 -d"
 cd ..
 
-clone_or_update router git@github.com:alphagov/router.git master
+clone_or_update router git@github.com:alphagov/router.git ${ROUTER_BRANCH:-"master"}
 gopath_dir=$(basename $GOPATH)
 org_path="$gopath_dir/src/github.com/alphagov"
 if [ ! -d "$org_path/router" ]; then
