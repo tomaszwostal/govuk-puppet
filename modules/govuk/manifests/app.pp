@@ -394,7 +394,7 @@ define govuk::app (
     govuk_logging::logstream { "${title}-app-err":
       ensure  => $logstream_ensure,
       logfile => "/var/log/${title}/app.err.log",
-      tags    => ['stderr', 'app'],
+      tags    => ['stderr', 'app', 'legacy_logging'],
       json    => $err_log_json,
       fields  => {'application' => $title},
     }
@@ -409,7 +409,7 @@ define govuk::app (
       govuk_logging::logstream { "${title}-production-log":
         ensure        => $logstream_ensure,
         logfile       => $log_path,
-        tags          => ['stdout', 'application'],
+        tags          => ['stdout', 'application', 'legacy_logging'],
         fields        => {'application' => $title},
         json          => $log_format_is_json,
         statsd_metric => "${statsd_timer_prefix}.http_%{@field.status}",
