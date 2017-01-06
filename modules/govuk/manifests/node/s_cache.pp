@@ -30,11 +30,19 @@
 #
 #   Default: false
 #
+# [*whitelisted_cookies*]
+#
+#   Cookies which are required by gov.uk applications, and which should not be
+#   removed from requests or responses by Varnish.
+#
+#   Default: undef
+#
 class govuk::node::s_cache (
   $protect_cache_servers = false,
   $real_ip_header = undef,
   $denied_ip_addresses = undef,
   $enable_authenticating_proxy = false,
+  $whitelisted_cookies = undef,
 ) inherits govuk::node::s_base {
 
   include govuk_htpasswd
@@ -78,10 +86,11 @@ class govuk::node::s_cache (
   }
 
   class { 'varnish':
-    storage_size  => join([$varnish_storage_size,'M'],''),
-    default_ttl   => '900',
-    upstream_port => $varnish_upstream_port,
-    strip_cookies => $strip_cookies,
+    storage_size        => join([$varnish_storage_size,'M'],''),
+    default_ttl         => '900',
+    upstream_port       => $varnish_upstream_port,
+    strip_cookies       => $strip_cookies,
+    whitelisted_cookies => $whitelisted_cookies,
   }
 
   if $enable_authenticating_proxy {

@@ -10,7 +10,11 @@
 # [*strip_cookies*]
 #   See varnish/manifests/init.pp.
 #
-class varnish::config($upstream_port, $strip_cookies) {
+# [*whitelisted_cookies]
+#   Cookies which are required by gov.uk applications, and which should not be
+#   removed from requests or responses by Varnish.
+#
+class varnish::config($upstream_port, $strip_cookies, $whitelisted_cookies) {
   include varnish::restart
 
   $app_domain  = hiera('app_domain')

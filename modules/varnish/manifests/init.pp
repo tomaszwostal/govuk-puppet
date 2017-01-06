@@ -20,6 +20,12 @@
 #
 #   Default: true
 #
+# [*whitelisted_cookies*]
+#   Cookies which are required by gov.uk applications, and which should not be
+#   removed from requests or responses by Varnish.
+#
+#   Default: []
+#
 # [*storage_size*]
 #   The amount of memory that `varnishd` will allocate using the memory-based `malloc` storage backend.
 #   For full documentation see https://www.varnish-cache.org/docs/3.0/reference/varnishd.html?highlight=default_ttl#storage-types
@@ -33,6 +39,7 @@
 class varnish (
     $default_ttl  = 900,
     $strip_cookies = true,
+    $whitelisted_cookies = [],
     $storage_size = '512M',
     $upstream_port = 3054,
 ) {
@@ -45,10 +52,11 @@ class varnish (
   }
 
   class { 'varnish::config':
-    strip_cookies => $strip_cookies,
-    upstream_port => $upstream_port,
-    require       => Class['varnish::package'],
-    notify        => Class['varnish::service'];
+    strip_cookies       => $strip_cookies,
+    whitelisted_cookies => $whitelisted_cookies,
+    upstream_port       => $upstream_port,
+    require             => Class['varnish::package'],
+    notify              => Class['varnish::service'];
   }
   class { 'collectd::plugin::varnish':
     require => Class['varnish::config'],
