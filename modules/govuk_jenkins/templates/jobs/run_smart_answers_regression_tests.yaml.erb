@@ -1,0 +1,18 @@
+---
+- scm:
+    name: smart_answers_repo
+    scm:
+        - git:
+            url: git@github.com:alphagov/smart-answers.git
+            branches:
+              - master
+- job:
+    name: Run-Smart-Answers-Regression-Tests
+    display-name: Run-Smart-Answers-Regression-Tests
+    project-type: freestyle
+    description: "Run regresssion tests for smart answers"
+    scm:
+      - smart_answers_repo
+    builders:
+        - shell: |
+            ./jenkins_branches.sh
