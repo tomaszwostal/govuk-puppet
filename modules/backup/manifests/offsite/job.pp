@@ -92,6 +92,14 @@ define backup::offsite::job(
     $freshness_threshold = (4 + (7 * 24)) * 60 * 60 # one week plus 4 hours
   }
 
+  file { "/usr/local/bin/check-offsite-backup-status-${title}":
+    ensure  => $ensure,
+    owner   => $user,
+    group   => $user,
+    mode    => '0750',
+    content => template('backup/backup-status'),
+  }
+
   if $ensure == 'present' {
     @@icinga::passive_check { "check_backup_offsite-${title}-${::hostname}":
       service_description => $service_description,

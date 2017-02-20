@@ -1,0 +1,16 @@
+#!/bin/bash
+<% if @aws_access_key_id %>
+export AWS_ACCESS_KEY_ID=<% @aws_access_key_id %>
+export AWS_SECRET_ACCESS_KEY=<% @aws_secret_access_key %>
+<% end %>
+
+if [[ -z $1  ]]; then
+  echo "Must set duplicity argument: "
+  echo "$0 collection-status"
+  exit 1
+fi
+
+# TODO
+# need to do string replacement stuff
+/usr/bin/duplicity $1 --archive-dir <% @archive_directory %> s3://s3-eu-west-1.amazonaws.com/ <% @destination %>
+
