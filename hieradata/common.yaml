@@ -807,6 +807,7 @@ grafana::dashboards::deployment_applications:
     has_workers: true
   whitehall:
     has_workers: true
+    has_controller_data: true
 
 
 grub2::recordfail_timeout: 5
