@@ -32,12 +32,21 @@ define govuk::app::envvar (
     file { "${envdir}/${varname}":
       ensure  => present,
       content => $nulls_for_newlines_value,
-      notify  => Govuk::App::Service[$app],
+      notify  => [ Govuk::App::Service[$app], Exec['build-composite-env-file'] ],
     }
   } else {
     file { "${envdir}/${varname}":
       ensure  => present,
       content => $nulls_for_newlines_value,
+      notify  => Exec['build-composite-env-file'],
     }
   }
+
+  # build a file containing all the envvars for the given application
+  exec { 'build-composite-env-file':
+    path        => ['/bin', '/usr/bin'],
+    command     => "cat `find ${envdir} -type f` > /etc/govuk/${app}-env-file",
+    refreshonly => true,
+  }
+
 }
