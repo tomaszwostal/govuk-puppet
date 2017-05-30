@@ -29,7 +29,11 @@ class govuk_jenkins::job::deploy_dns (
   $gce_project_id = undef,
   $gce_credential_id = undef,
   $route53_zone_id = undef,
+  $app_domain = hiera('app_domain'),
 ) {
+  $slack_team_domain = 'govuk'
+  $slack_room = 'govuk-deploy'
+  $slack_build_server_url = "https://deploy.${app_domain}/"
 
   contain '::govuk_jenkins::packages::terraform'
 
