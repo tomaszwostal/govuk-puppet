@@ -1311,6 +1311,8 @@ hosts::production::licensify::hosts:
     ip: '10.5.0.18'
 
 hosts::production::management::hosts:
+  db-admin-1:
+    ip: '10.1.0.240'
   jenkins-1:
     ip: '10.1.0.3'
     legacy_aliases:
