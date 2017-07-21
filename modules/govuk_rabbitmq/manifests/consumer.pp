@@ -31,6 +31,12 @@
 # [*routing_key*]
 #   The routing key to create a binding for on the RabbitMQ queue.
 #
+# [*amqp_queue_2*]
+#   Optional second RabbitMQ queue name.
+#
+# [*routing_key_2*]
+#   Optional second routing key.
+#
 # [*is_test_exchange*]
 #   Whether the amqp_exchange is a test exchange (only used by the test suite).
 #   When set to true, this will create the exchange, and give the amqp_user
@@ -51,12 +57,17 @@ define govuk_rabbitmq::consumer (
   $amqp_exchange,
   $amqp_queue,
   $routing_key,
+  $amqp_queue_2 = undef,
+  $routing_key_2 = undef,
   $is_test_exchange = false,
   $exchange_type = 'topic',
   $ensure = present,
 ) {
   validate_re($ensure, '^(present|absent)$', '$ensure must be "present" or "absent"')
   validate_re($routing_key, '^.+$', '$routing_key must be non-empty')
+  if $amqp_queue_2 {
+    validate_re($routing_key_2, '^.+$', '$routing_key_2 must be non-empty when amqp_queue_2 is set')
+  }
 
   $amqp_user = $title
 
