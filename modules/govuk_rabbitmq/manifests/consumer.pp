@@ -69,6 +69,12 @@ define govuk_rabbitmq::consumer (
     validate_re($routing_key_2, '^.+$', '$routing_key_2 must be non-empty when amqp_queue_2 is set')
   }
 
+  if $amqp_queue_2 {
+    $amqp_queue_names = "${amqp_queue}|${amqp_queue_2}"
+  } else {
+    $amqp_queue_names = $amqp_queue
+  }
+
   $amqp_user = $title
 
   include ::govuk_rabbitmq
@@ -78,9 +84,9 @@ define govuk_rabbitmq::consumer (
       ensure => $ensure,
       type   => $exchange_type,
     }
-    $write_permission = "^(amq\\.gen.*|${amqp_queue}|${amqp_exchange})\$"
+    $write_permission = "^(amq\\.gen.*|${amqp_queue_names}|${amqp_exchange})\$"
   } else {
-    $write_permission = "^(amq\\.gen.*|${amqp_queue})\$"
+    $write_permission = "^(amq\\.gen.*|${amqp_queue_names})\$"
   }
 
   if $ensure == present {
@@ -90,9 +96,9 @@ define govuk_rabbitmq::consumer (
     } ->
     rabbitmq_user_permissions { "${amqp_user}@/":
       ensure               => present,
-      configure_permission => "^(amq\\.gen.*|${amqp_queue})\$",
+      configure_permission => "^(amq\\.gen.*|${amqp_queue_names})\$",
       write_permission     => $write_permission,
-      read_permission      => "^(amq\\.gen.*|${amqp_queue}|${amqp_exchange})\$",
+      read_permission      => "^(amq\\.gen.*|${amqp_queue_names}|${amqp_exchange})\$",
     }
 
     rabbitmq_queue { "${amqp_queue}@/":
@@ -111,6 +117,26 @@ define govuk_rabbitmq::consumer (
       destination_type => 'queue',
       routing_key      => $routing_key,
       arguments        => {},
+    }
+    if $amqp_queue_2 {
+      rabbitmq_queue { "${amqp_queue_2}@/":
+        ensure      => present,
+        user        => 'root',
+        password    => $::govuk_rabbitmq::root_password,
+        durable     => true,
+        auto_delete => false,
+        arguments   => {},
+      } ->
+      rabbitmq_binding { "binding_${routing_key_2}_${amqp_exchange}@${amqp_queue_2}@/":
+        ensure           => present,
+        name             => "${amqp_exchange}@${amqp_queue_2}@/",
+        user             => 'root',
+        password         => $::govuk_rabbitmq::root_password,
+        destination_type => 'queue',
+        routing_key      => $routing_key_2,
+        arguments        => {},
+      }
+
     }
 
   } else {
