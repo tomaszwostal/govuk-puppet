@@ -12,7 +12,7 @@ class govuk::node::s_rummager_elasticsearch inherits govuk::node::s_base {
   }
 
   class { 'govuk_elasticsearch':
-    cluster_hosts          => ['api-elasticsearch-1.api:9300', 'api-elasticsearch-2.api:9300', 'api-elasticsearch-3.api:9300'],
+    cluster_hosts          => ['rummager-elasticsearch-1.api:9300', 'rummager-elasticsearch-2.api:9300', 'rummager-elasticsearch-3.api:9300'],
     cluster_name           => 'govuk-content',
     heap_size              => "${es_heap_size}m",
     number_of_replicas     => '1',
