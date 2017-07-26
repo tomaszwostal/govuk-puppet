@@ -27,9 +27,9 @@ class govuk_scripts {
   # govuk_node_list is a simple script that lists nodes of specified classes
   # using puppetdb
   file { '/usr/local/bin/govuk_node_list':
-    ensure => present,
-    source => 'puppet:///modules/govuk_scripts/usr/local/bin/govuk_node_list',
-    mode   => '0755',
+    ensure  => present,
+    content => template('govuk_scripts/govuk_node_list.erb'),
+    mode    => '0755',
   }
 
 }

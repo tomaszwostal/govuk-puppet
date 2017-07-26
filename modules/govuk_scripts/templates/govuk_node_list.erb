@@ -64,7 +64,11 @@ def main():
            query = '["and", ["=", ["fact", "dr_node"], false], '+ query + ']'
 
     qs = urllib.urlencode({'query': query})
-    res = urllib2.urlopen('http://puppetdb.cluster/v2/{0}?{1}'.format(endpoint, qs))
+    <%- if scope.lookupvar('::aws_migration') -%>
+    res = urllib2.urlopen('http://puppetdb/v2/{0}?{1}'.format(endpoint, qs))
+    <%- else -%>
+    res = urllib2.urlopen('http://puppetdb/v2/{0}?{1}'.format(endpoint, qs))
+    <%- end -%>
     hosts = json.load(res)
 
     if opts.single_node and len(hosts) > 0:
