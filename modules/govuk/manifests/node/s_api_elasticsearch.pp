@@ -24,6 +24,7 @@ class govuk::node::s_api_elasticsearch inherits govuk::node::s_base {
     open_firewall_from_all => false,
     require                => Class['govuk_java::openjdk7::jre'],
     aws_cluster_name       => $aws_cluster_name,
+    version                => '1.7.5',
   }
 
   unless $::aws_migration {
