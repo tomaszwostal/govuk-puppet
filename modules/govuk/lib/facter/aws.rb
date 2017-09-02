@@ -56,4 +56,15 @@ if Facter.value(:aws_migration)
       end
     end
   end
+
+  Facter.add("fqdn") do
+    has_weight 100
+    setcode do
+      hostclass = Facter.value("aws_migration")
+      fqdn = Facter.value("fqdn")
+      aws_fqdn = "${hostclass}_${fqdn}"
+
+      aws_fqdn
+    end
+  end
 end
