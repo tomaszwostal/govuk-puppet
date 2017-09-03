@@ -5,7 +5,6 @@ mod 'attachmentgenie/ufw', '1.0.3'
 mod 'benjamin/ramdisk', '0.0.1'
 mod 'camptocamp/augeas', '1.1.0'
 mod 'fsalum/redis'
-mod 'garethr-docker', '5.3.0'
 mod 'maestrodev/wget', '>= 1.1.0'
 mod 'puppetlabs/apt', '2.3.0'
 mod 'puppetlabs/concat', '2.2.0'
@@ -24,6 +23,12 @@ mod 'saz/rsyslog', '3.2.0'
 mod 'saz/sudo', '3.1.0'
 mod 'saz/timezone'
 mod 'stankevich/python', '1.9.8'
+
+# The last release on forge was over a year ago, and master has new features
+# that we need
+mod 'garethr/docker',
+  :git => 'git://github.com/garethr/garethr-docker.git',
+  :ref => 'd8587b2affc98daf5d64e91992aff0a89c0ba751'
 
 # Installing from GitHub because we need this revision
 # which will probably be released as version 0.0.7
