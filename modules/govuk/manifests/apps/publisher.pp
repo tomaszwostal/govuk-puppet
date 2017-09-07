@@ -16,12 +16,8 @@
 #   The bearer token to use when communicating with Publishing API.
 #   Default: undef
 #
-# [*need_api_bearer_token*]
-#   The bearer token to use when communicating with Need API.
-#   Default: undef
-#
 # [*asset_manager_bearer_token*]
-#   The bearer token to use when communicating with Need API.
+#   The bearer token to use when communicating with Asset Manager.
 #   Default: undef
 #
 # [*secret_key_base*]
@@ -67,7 +63,6 @@ class govuk::apps::publisher(
     $port = '3000',
     $enable_procfile_worker = true,
     $publishing_api_bearer_token = undef,
-    $need_api_bearer_token = undef,
     $asset_manager_bearer_token = undef,
     $secret_key_base = undef,
     $mongodb_name = undef,
@@ -145,9 +140,6 @@ class govuk::apps::publisher(
     "${title}-PUBLISHING_API_BEARER_TOKEN":
       varname => 'PUBLISHING_API_BEARER_TOKEN',
       value   => $publishing_api_bearer_token;
-    "${title}-NEED_API_BEARER_TOKEN":
-      varname => 'NEED_API_BEARER_TOKEN',
-      value   => $need_api_bearer_token;
     "${title}-ASSET_MANAGER_BEARER_TOKEN":
       varname => 'ASSET_MANAGER_BEARER_TOKEN',
       value   => $asset_manager_bearer_token;
