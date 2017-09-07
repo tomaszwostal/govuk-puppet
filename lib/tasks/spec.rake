@@ -15,7 +15,7 @@ namespace :spec do
     cli_args.concat(matched_files)
 
     $stderr.puts '---> Running puppet specs'
-    ParallelTest::CLI.run(cli_args)
+    ParallelTests::CLI.new.run(cli_args)
   end
 
   desc "Run govuk::node class specs"
