@@ -58,6 +58,7 @@ class govuk::apps::need_api(
   $secret_key_base = undef,
 ) {
   govuk::app { 'need-api':
+    ensure             => 'absent',
     app_type           => 'rack',
     port               => $port,
     sentry_dsn         => $sentry_dsn,
@@ -65,51 +66,5 @@ class govuk::apps::need_api(
     health_check_path  => '/healthcheck',
     log_format_is_json => true,
     repo_name          => 'govuk_need_api',
-  }
-
-  govuk_logging::logstream { 'need-api-org-import-json-log':
-    logfile => '/var/apps/need-api/log/organisation_import.json.log',
-    fields  => {'application' => 'need-api'},
-    json    => true,
-  }
-
-  Govuk::App::Envvar {
-    app => 'need-api',
-  }
-  govuk::app::envvar {
-    "${title}-PUBLISHING_API_BEARER_TOKEN":
-      varname => 'PUBLISHING_API_BEARER_TOKEN',
-      value   => $publishing_api_bearer_token;
-    "${title}-ELASTICSEARCH_HOSTS":
-      varname => 'ELASTICSEARCH_HOSTS',
-      value   => $elasticsearch_hosts;
-    "${title}-ERRBIT_API_KEY":
-      varname => 'ERRBIT_API_KEY',
-      value   => $errbit_api_key;
-    "${title}-OAUTH_ID":
-      varname => 'OAUTH_ID',
-      value   => $oauth_id;
-    "${title}-OAUTH_SECRET":
-      varname => 'OAUTH_SECRET',
-      value   => $oauth_secret;
-    "${title}-REDIS_HOST":
-      varname => 'REDIS_HOST',
-      value   => $redis_host;
-  }
-
-  validate_array($mongodb_nodes)
-  if $mongodb_nodes != [] {
-    $mongodb_nodes_string = join($mongodb_nodes, ',')
-    govuk::app::envvar { "${title}-MONGODB_URI":
-      varname => 'MONGODB_URI',
-      value   => "mongodb://${mongodb_nodes_string}/${mongodb_name}",
-    }
-  }
-
-  if $secret_key_base != undef {
-    govuk::app::envvar { "${title}-SECRET_KEY_BASE":
-      varname => 'SECRET_KEY_BASE',
-      value   => $secret_key_base,
-    }
   }
 }
