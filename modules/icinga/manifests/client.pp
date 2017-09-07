@@ -44,7 +44,7 @@ class icinga::client (
   anchor { 'icinga::client::end':
     require => Class[
       'icinga::client::firewall',
-      'icinga::client::service'
+      'icinga::client::service',
     ],
   }
 

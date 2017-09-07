@@ -122,7 +122,7 @@ class mongodb::server (
     require => Class[
       'mongodb::firewall',
       'mongodb::service',
-      'mongodb::configure_replica_set'
+      'mongodb::configure_replica_set',
     ],
   }
 

@@ -47,7 +47,7 @@ class nginx (
     require => Class[
       'nginx::logging',
       'nginx::firewall',
-      'nginx::service'
+      'nginx::service',
     ],
   }
 

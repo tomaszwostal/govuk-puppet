@@ -55,8 +55,8 @@ define govuk_logging::logstream (
         owner   => 'root',
         group   => 'root',
         content => template('govuk_logging/logstream.systemd.erb'),
-      }~>
-      exec { "logstream-${upstart_name}-systemd-reload":
+      }
+      ~> exec { "logstream-${upstart_name}-systemd-reload":
         command     => 'systemctl daemon-reload',
         path        => [ '/usr/bin', '/bin', '/usr/sbin' ],
         refreshonly => true,

@@ -17,8 +17,8 @@ class assets::ssh_authorized_key (
     owner  => $username,
     group  => $username,
     mode   => '0700',
-  } ->
-  ssh_authorized_key { 'asset-sync':
+  }
+  -> ssh_authorized_key { 'asset-sync':
     user    => 'assets',
     type    => 'ssh-rsa',
     key     => $key,

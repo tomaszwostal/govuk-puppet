@@ -22,7 +22,7 @@ class icinga {
   anchor { 'icinga::end':
     require => Class[
       'icinga::service',
-      'icinga::nginx'
+      'icinga::nginx',
     ],
   }
 

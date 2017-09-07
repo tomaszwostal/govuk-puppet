@@ -136,7 +136,7 @@ class govuk_mysql::server (
   anchor { 'govuk_mysql::server::end':
     require => Class[
       'govuk_mysql::server::firewall',
-      'mysql::server'
+      'mysql::server',
     ],
   }
 

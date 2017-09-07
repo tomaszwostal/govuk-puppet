@@ -8,8 +8,8 @@ class apache::remove {
   service { 'apache2':
     ensure   => 'stopped',
     provider => 'base',
-  } ->
-  package { [
+  }
+  -> package { [
     'apache2',
     'apache2-mpm-worker',
     'apache2.2-bin',

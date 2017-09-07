@@ -21,7 +21,7 @@ class clamav (
   class { 'clamav::package':
     notify      => Class[
       'clamav::config',
-      'clamav::run_freshclam'
+      'clamav::run_freshclam',
     ],
     use_service => $use_service,
     require     => Anchor['clamav::begin'],
@@ -48,7 +48,7 @@ class clamav (
   anchor { 'clamav::end':
     require => Class[
       'clamav::service',
-      'clamav::monitoring'
+      'clamav::monitoring',
     ],
   }
 }

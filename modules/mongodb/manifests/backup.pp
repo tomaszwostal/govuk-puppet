@@ -58,8 +58,8 @@ class mongodb::backup(
     group   => 'root',
     mode    => '0744',
     require => Class['mongodb::package'],
-  } ->
-  file { '/var/log/automongodbbackup':
+  }
+  -> file { '/var/log/automongodbbackup':
     ensure => directory,
     mode   => '0755',
     owner  => 'root',

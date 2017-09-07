@@ -98,8 +98,8 @@ define govuk_rabbitmq::consumer (
     rabbitmq_user { $amqp_user:
       ensure   => present,
       password => $amqp_pass,
-    } ->
-    rabbitmq_user_permissions { "${amqp_user}@/":
+    }
+    -> rabbitmq_user_permissions { "${amqp_user}@/":
       ensure               => present,
       configure_permission => "^(amq\\.gen.*|${amqp_queue_names})\$",
       write_permission     => $write_permission,
@@ -114,8 +114,8 @@ define govuk_rabbitmq::consumer (
         durable     => true,
         auto_delete => false,
         arguments   => {},
-      } ->
-      rabbitmq_binding { "binding_${routing_key}_${amqp_exchange}@${amqp_queue}@/":
+      }
+      -> rabbitmq_binding { "binding_${routing_key}_${amqp_exchange}@${amqp_queue}@/":
         ensure           => present,
         name             => "${amqp_exchange}@${amqp_queue}@/",
         user             => 'root',
@@ -133,8 +133,8 @@ define govuk_rabbitmq::consumer (
           durable     => true,
           auto_delete => false,
           arguments   => {},
-        } ->
-        rabbitmq_binding { "binding_${routing_key_2}_${amqp_exchange}@${amqp_queue_2}@/":
+        }
+        -> rabbitmq_binding { "binding_${routing_key_2}_${amqp_exchange}@${amqp_queue_2}@/":
           ensure           => present,
           name             => "${amqp_exchange}@${amqp_queue_2}@/",
           user             => 'root',

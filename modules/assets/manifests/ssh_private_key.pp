@@ -18,8 +18,8 @@ class assets::ssh_private_key (
     owner  => $username,
     group  => $username,
     mode   => '0700',
-  } ->
-  file { "${ssh_dir}/id_rsa":
+  }
+  -> file { "${ssh_dir}/id_rsa":
     ensure  => file,
     owner   => $username,
     mode    => '0600',

@@ -15,8 +15,8 @@ class assets::user {
     uid     => '2900',
     gid     => 'assets',
     require => [Group['assets']],
-  } ->
-  file { $home:
+  }
+  -> file { $home:
     ensure => directory,
     owner  => $user,
     group  => $user,

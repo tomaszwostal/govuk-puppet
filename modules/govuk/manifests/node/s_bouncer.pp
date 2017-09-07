@@ -28,7 +28,7 @@ class govuk::node::s_bouncer (
 
   @@icinga::check::graphite { "check_nginx_requests_${::hostname}":
     target              => "${::fqdn_metrics}.nginx.nginx_requests",
-    warning             => "@${minimum_request_rate * 1.2}",
+    warning             => "@${minimum_request_rate} * 1.2",
     critical            => "@${minimum_request_rate}",
     desc                => 'Minimum HTTP request rate for bouncer',
     host_name           => $::fqdn,

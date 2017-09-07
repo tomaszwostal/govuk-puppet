@@ -58,7 +58,7 @@ class varnish (
   anchor { 'varnish::end':
     require => Class[
       'varnish::service',
-      'varnish::monitoring'
+      'varnish::monitoring',
     ],
   }
 }

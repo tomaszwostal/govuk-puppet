@@ -7,8 +7,8 @@ class govuk_apt::unused_kernels {
   package { 'ubuntu_unused_kernels':
     ensure   => '0.2.0',
     provider => 'system_gem',
-  } ->
-  file { '/etc/cron.daily/remove_unused_kernels':
+  }
+  -> file { '/etc/cron.daily/remove_unused_kernels':
     ensure => present,
     source => 'puppet:///modules/govuk_apt/etc/cron.daily/remove_unused_kernels',
     mode   => '0755',

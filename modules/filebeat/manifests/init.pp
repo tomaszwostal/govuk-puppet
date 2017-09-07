@@ -35,11 +35,11 @@ class filebeat (
   $prospectors          = {},
 ) {
 
-  anchor { 'filebeat::begin': } ->
-  class { '::filebeat::install': } ->
-  class { '::filebeat::config': } ->
-  class { '::filebeat::service': } ->
-  anchor { 'filebeat::end': }
+  anchor { 'filebeat::begin': }
+  -> class { '::filebeat::install': }
+  -> class { '::filebeat::config': }
+  -> class { '::filebeat::service': }
+  -> anchor { 'filebeat::end': }
 
   $prospectors_final = hiera_hash('filebeat::prospectors', $prospectors)
 

@@ -29,14 +29,14 @@ class govuk::node::s_db_admin(
     owner   => 'root',
     group   => 'root',
     content => template('govuk/node/s_db_admin/.my.cnf.erb'),
-  } ->
+  }
   # include all the MySQL database classes that add users
-  class { '::govuk::apps::collections_publisher::db': } ->
-  class { '::govuk::apps::contacts::db': } ->
-  class { '::govuk::apps::release::db': } ->
-  class { '::govuk::apps::search_admin::db': } ->
-  class { '::govuk::apps::signon::db': } ->
-  class { '::govuk::apps::whitehall::db': }
+  -> class { '::govuk::apps::collections_publisher::db': }
+  -> class { '::govuk::apps::contacts::db': }
+  -> class { '::govuk::apps::release::db': }
+  -> class { '::govuk::apps::search_admin::db': }
+  -> class { '::govuk::apps::signon::db': }
+  -> class { '::govuk::apps::whitehall::db': }
 
   $default_connect_settings = {
     'PGUSER'     => $postgres_user,
@@ -49,11 +49,11 @@ class govuk::node::s_db_admin(
   # a local PostgreSQL server instance to be installed
   class { '::postgresql::server':
     default_connect_settings => $default_connect_settings,
-  } ->
+  }
 
   # This allows easy administration of the PostgreSQL backend:
   # https://www.postgresql.org/docs/9.3/static/libpq-pgpass.html
-  file { '/root/.pgpass':
+  -> file { '/root/.pgpass':
     ensure  => present,
     mode    => '0600',
     content => "${postgres_host}:5432:*:${postgres_user}:${postgres_password}",
@@ -64,19 +64,19 @@ class govuk::node::s_db_admin(
   include ::govuk_postgresql::server::not_slave
 
   # Ensure the client class is installed
-  class { '::govuk_postgresql::client': } ->
+  class { '::govuk_postgresql::client': }
 
   # include all PostgreSQL classes that create databases and users
-  class { '::govuk::apps::content_performance_manager::db': } ->
-  class { '::govuk::apps::content_tagger::db': } ->
-  class { '::govuk::apps::email_alert_api::db': } ->
-  class { '::govuk::apps::link_checker_api::db': } ->
-  class { '::govuk::apps::local_links_manager::db': } ->
-  class { '::govuk::apps::policy_publisher::db': } ->
-  class { '::govuk::apps::publishing_api::db': } ->
-  class { '::govuk::apps::service_manual_publisher::db': } ->
-  class { '::govuk::apps::stagecraft::postgresql_db': } ->
-  class { '::govuk::apps::support_api::db': }
+  -> class { '::govuk::apps::content_performance_manager::db': }
+  -> class { '::govuk::apps::content_tagger::db': }
+  -> class { '::govuk::apps::email_alert_api::db': }
+  -> class { '::govuk::apps::link_checker_api::db': }
+  -> class { '::govuk::apps::local_links_manager::db': }
+  -> class { '::govuk::apps::policy_publisher::db': }
+  -> class { '::govuk::apps::publishing_api::db': }
+  -> class { '::govuk::apps::service_manual_publisher::db': }
+  -> class { '::govuk::apps::stagecraft::postgresql_db': }
+  -> class { '::govuk::apps::support_api::db': }
 
   $packages = [
     'mysql-client-5.5',
